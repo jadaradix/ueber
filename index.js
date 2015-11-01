@@ -58,10 +58,11 @@ exports.bucketize = function bucketize (array, count) {
   return buckets;
 };
 
-exports.sortByKey = function sortByKey (array, key, rev) {
+exports.sortByKey = function sortByKey (array, key, reverse) {
+  var reverseValue = ((reverse === true) ? -1 : 1);
   return array.sort(function (a, b) {
     var x = a[key]; var y = b[key];
-    return ((x < y) ? -1 : ((x > y) ? 1 : 0)) * (rev ? -1 : 1);
+    return ((x < y) ? -1 : ((x > y) ? 1 : 0)) * reverseValue;
   });
 };
 
