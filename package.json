@@ -1,0 +1,22 @@
+{
+  "name": "ueber",
+  "version": "1.0.0",
+  "description": "Ueber library of JavaScript helpers.",
+  "main": "index.js",
+  "directories": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jadaradix/ueber"
+  },
+  "author": "James Garner <j@jada.io> (http://jada.io/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jadaradix/uebers/issues"
+  },
+  "homepage": "https://github.com/jadaradix/ueber",
+  "dependencies": {
+    "lodash": "^3.10.1",
+    "underscore.string": "^3.2.2"
+  }
+}
