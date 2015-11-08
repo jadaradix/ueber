@@ -1,15 +1,16 @@
 var _ = require("lodash");
 var _s = require("underscore.string");
 
-exports.groupify = function groupify (array, key) {
+module.exports.groupify = function groupify (array, key) {
+  if (Array.isArray(array) === false) return [];
   if (array.length === 0) return [];
   var groups = [];
   var blankGroup = {
     "group": null,
     "members": []
   };
-  _.each(array, function (arrayBit) {
-    var existingGroup = _.find(groups, function (group) {
+  for (var arrayBit of array) {
+    var existingGroup = groups.find(function (group) {
       return (group.group === arrayBit[key]);
     });
     if (existingGroup) {
@@ -20,13 +21,13 @@ exports.groupify = function groupify (array, key) {
       newGroup.members = [arrayBit];
       groups.push(newGroup);
     }
-  });
+  }
   return groups;
 };
 
-exports.groupifyCount = function groupifyCount (array, key) {
+module.exports.groupifyCount = function groupifyCount (array, key) {
   var groups = exports.groupify(array, key);
-  var counts = _.map(groups, function (group) {
+  var counts = groups.map(function (group) {
     return {
       "name": group.group,
       "count": group.members.length
@@ -36,7 +37,7 @@ exports.groupifyCount = function groupifyCount (array, key) {
   return counts;
 };
 
-exports.bucketize = function bucketize (array, count) {
+module.exports.bucketize = function bucketize (array, count) {
   var lCount = 0;
   var currentBucket = [];
   var buckets = [];
@@ -44,8 +45,8 @@ exports.bucketize = function bucketize (array, count) {
     buckets.push(array);
     return buckets;
   }
-  for (var i = 0; i < array.length; i++) {
-    currentBucket.push(array[i]);
+  for (var arrayBit of array) {
+    currentBucket.push(arrayBit);
     if (lCount === count - 1) {
       buckets.push(_.clone(currentBucket));
       currentBucket = [];
@@ -58,7 +59,7 @@ exports.bucketize = function bucketize (array, count) {
   return buckets;
 };
 
-exports.sortByKey = function sortByKey (array, key, reverse) {
+module.exports.sortByKey = function sortByKey (array, key, reverse) {
   var reverseValue = ((reverse === true) ? -1 : 1);
   return array.sort(function (a, b) {
     var x = a[key]; var y = b[key];
@@ -66,29 +67,35 @@ exports.sortByKey = function sortByKey (array, key, reverse) {
   });
 };
 
-exports.normaliseName = function normaliseName (name) {
+module.exports.removeNulls = function removeNulls (array) {
+  return array.filter(function (arrayBit) {
+    return (arrayBit !== null);
+  });
+};
+
+module.exports.normaliseName = function normaliseName (name) {
   var name = name.toLowerCase();
   name = _s.camelize(name);
   name = _s.humanize(name);
-  name = _.map(name.split(" "), function (namePart) {
-    return namePart[0].toUpperCase() + namePart.substring(1);
+  name = name.split(" ").map(function (nameBit) {
+    return nameBit[0].toUpperCase() + nameBit.substring(1);
   }).join(" ");
   return name;
 };
 
-exports.initialName = function initialName (name) {
-  return _.map(name.split(" "), function (namePart) {
-    return namePart[0].toUpperCase();
+module.exports.initialName = function initialName (name) {
+  return name.split(" ").map(function (nameBit) {
+    return nameBit[0].toUpperCase();
   }).join("");
 };
 
-exports.cleanString = function cleanString (string) {
-  return _.filter(string, function (stringBit, index) {
+module.exports.cleanString = function cleanString (string) {
+  return Array.from(string).filter(function (stringBit, index) {
     var s = stringBit.charCodeAt(0);
     return (s >= 32 && s < 127);
   }).join("");
 };
 
-exports.isVowel = function isVowel (character) {
+module.exports.isVowel = function isVowel (character) {
   return (/[aeiouAEIOU]/.test(character));
 };
