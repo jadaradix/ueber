@@ -99,3 +99,7 @@ module.exports.cleanString = function cleanString (string) {
 module.exports.isVowel = function isVowel (character) {
   return (/[aeiouAEIOU]/.test(character));
 };
+
+module.exports.arrayValueBoolify = function arrayValueBoolify (array, value) {
+  return (value in array ? array[value] : false);
+};
