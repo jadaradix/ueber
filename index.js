@@ -103,3 +103,32 @@ module.exports.isVowel = function isVowel (character) {
 module.exports.arrayValueBoolify = function arrayValueBoolify (array, value) {
   return (value in array ? array[value] : false);
 };
+
+module.exports.addEvent = function addEvent (element, eventName, fn) {
+  if (element.addEventListener) {
+    element.addEventListener(eventName, fn, false);
+  } else if (element.attachEvent) {
+    element.attachEvent("on" + eventName, fn);
+  } else {
+    throw "Neither addEventListener or attachEvent methods were availabe on the element";
+    // disallow chaining to avoid a train wreck
+    return false;
+  }
+  // allow chaining
+  return element;
+};
+
+module.exports.hasClass = function hasClass (element, className) {
+  // http://stackoverflow.com/a/15226442
+  return (new RegExp("(\\s|^)" + className + "(\\s|$)").test(element.className));
+};
+
+module.exports.showHide = function showHide (element, doShow) {
+  if (doShow === true) {
+    element.style.display = (element.hasAttribute("data-fade-inline-block") ? "inline-block" : "block");
+    element.style.opacity = 1;
+  } else {
+    element.style.display = "none";
+    element.style.opacity = 0;
+  }
+};
