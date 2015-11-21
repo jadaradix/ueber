@@ -110,7 +110,7 @@ module.exports.addEvent = function addEvent (element, eventName, fn) {
   } else if (element.attachEvent) {
     element.attachEvent("on" + eventName, fn);
   } else {
-    throw "Neither addEventListener or attachEvent methods were availabe on the element";
+    throw "Neither addEventListener or attachEvent methods were available on the element";
     // disallow chaining to avoid a train wreck
     return false;
   }
