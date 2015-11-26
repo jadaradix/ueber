@@ -132,3 +132,7 @@ module.exports.showHide = function showHide (element, doShow) {
     element.style.opacity = 0;
   }
 };
+
+module.exports.dateNow = function () {
+  return (Date.now() || Date().getTime());
+};
