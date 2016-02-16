@@ -136,3 +136,9 @@ module.exports.showHide = function showHide (element, doShow) {
 module.exports.dateNow = function () {
   return (Date.now() || Date().getTime());
 };
+
+module.exports.getObjectValues = function getObjectKeys (object) {
+  return Object.keys(object).map(function (key) {
+    return object[key];
+  });
+};
