@@ -26,15 +26,27 @@ module.exports.groupify = function groupify (array, key) {
 };
 
 module.exports.groupifyCount = function groupifyCount (array, key) {
-  var groups = exports.groupify(array, key);
+  var groups = module.exports.groupify(array, key);
   var counts = groups.map(function (group) {
     return {
       "name": group.group,
       "count": group.members.length
     };
   });
-  counts = exports.sortByKey(counts, "count", true);
+  counts = module.exports.sortByKey(counts, "count", true);
   return counts;
+};
+
+module.exports.groupifyCountLinear = function groupifyCountLinear (array) {
+  var r = {};
+  array.forEach((arrayBit) => {
+    if (r[arrayBit]) {
+      r[arrayBit]++;
+    } else {
+      r[arrayBit] = 1;
+    }
+  });
+  return r;
 };
 
 module.exports.bucketize = function bucketize (array, count) {
