@@ -9,7 +9,7 @@ module.exports.groupify = function groupify (array, key) {
     "group": null,
     "members": []
   };
-  for (var arrayBit of array) {
+  array.forEach(function (arrayBit) {
     var existingGroup = groups.find(function (group) {
       return (group.group === arrayBit[key]);
     });
@@ -21,7 +21,7 @@ module.exports.groupify = function groupify (array, key) {
       newGroup.members = [arrayBit];
       groups.push(newGroup);
     }
-  }
+  });
   return groups;
 };
 
@@ -39,7 +39,7 @@ module.exports.groupifyCount = function groupifyCount (array, key) {
 
 module.exports.groupifyCountLinear = function groupifyCountLinear (array) {
   var r = {};
-  array.forEach((arrayBit) => {
+  array.forEach(function (arrayBit) {
     if (r[arrayBit]) {
       r[arrayBit]++;
     } else {
@@ -57,7 +57,7 @@ module.exports.bucketize = function bucketize (array, count) {
     buckets.push(array);
     return buckets;
   }
-  for (var arrayBit of array) {
+  array.forEach(function (arrayBit) {
     currentBucket.push(arrayBit);
     if (lCount === count - 1) {
       buckets.push(_.clone(currentBucket));
@@ -66,7 +66,7 @@ module.exports.bucketize = function bucketize (array, count) {
     } else {
       lCount++;
     }
-  }
+  });
   if (currentBucket.length > 0) buckets.push(_.clone(currentBucket));
   return buckets;
 };
