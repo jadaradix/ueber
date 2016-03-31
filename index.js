@@ -154,3 +154,34 @@ module.exports.getObjectValues = function getObjectKeys (object) {
     return object[key];
   });
 };
+
+module.exports.zeroOneHundredColour = function zeroOneHundredColour (value, isPositive) {
+  var rValue = 0;
+  var gValue = 0;
+  var bValue = 0;
+  if (isPositive) {
+    gValue = Math.ceil(value * 255);
+  } else {
+    rValue = Math.ceil(value * 255);
+  }
+  var colour = "rgb(" + [rValue, gValue, bValue].join(", ") + ")";
+  return colour;
+};
+
+module.exports.deltaColour = function deltaColour (value1, value2, divideScale) {
+  if (divideScale === undefined) divideScale = 100;
+  var value = value1 - value2;
+  var rValue = 0;
+  var gValue = 0;
+  var bValue = 0;
+  // * 2 as if the range is 0-dividedScale(25)% bad... worse than this is quite unlikely and can't be > 255 anyway
+  if (value <= 0) {
+    rValue = Math.ceil(-value * 255 * (100 / divideScale));
+  } else {
+    gValue = Math.ceil(value * 255 * (100 / divideScale));
+  }
+  if (rValue > 255) rValue = 255;
+  if (gValue > 255) gValue = 255;
+  var colour = "rgb(" + [rValue, gValue, bValue].join(", ") + ")";
+  return colour;
+};
