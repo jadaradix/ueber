@@ -156,14 +156,12 @@ module.exports.getObjectValues = function getObjectKeys (object) {
 };
 
 module.exports.zeroOneHundredColour = function zeroOneHundredColour (value, isPositive) {
-  var rValue = 0;
-  var gValue = 0;
-  var bValue = 0;
-  if (isPositive) {
-    gValue = Math.ceil(value * 255);
-  } else {
-    rValue = Math.ceil(value * 255);
-  }
+  // http://stackoverflow.com/a/23865972/3929494
+  // power is 0-100 - 0 is green, 100 is red
+  var power = (isPositive ? -value * 100 : value * 100);
+  var rValue = Math.floor( 255 * Math.sqrt( Math.sin ( power * Math.PI / 200 )) );
+  var gValue = Math.floor( 255 * Math.sqrt( Math.cos ( power * Math.PI / 200 )) );
+  var bValue = Math.floor( 0 );
   var colour = "rgb(" + [rValue, gValue, bValue].join(", ") + ")";
   return colour;
 };
@@ -174,7 +172,6 @@ module.exports.deltaColour = function deltaColour (value1, value2, divideScale) 
   var rValue = 0;
   var gValue = 0;
   var bValue = 0;
-  // * 2 as if the range is 0-dividedScale(25)% bad... worse than this is quite unlikely and can't be > 255 anyway
   if (value <= 0) {
     rValue = Math.ceil(-value * 255 * (100 / divideScale));
   } else {
