@@ -1,5 +1,6 @@
-var _ = require("lodash");
-var _s = require("underscore.string");
+"use strict";
+
+const _s = require("underscore.string");
 
 module.exports.groupify = function groupify (array, key) {
   if (Array.isArray(array) === false) return [];
@@ -16,7 +17,7 @@ module.exports.groupify = function groupify (array, key) {
     if (existingGroup) {
       existingGroup.members.push(arrayBit);
     } else {
-      var newGroup = _.clone(blankGroup);
+      var newGroup = Object.assign({}, blankGroup);
       newGroup.group = arrayBit[key];
       newGroup.members = [arrayBit];
       groups.push(newGroup);
@@ -60,14 +61,16 @@ module.exports.bucketize = function bucketize (array, count) {
   array.forEach(function (arrayBit) {
     currentBucket.push(arrayBit);
     if (lCount === count - 1) {
-      buckets.push(_.clone(currentBucket));
+      buckets.push(currentBucket.slice());
       currentBucket = [];
       lCount = 0;
     } else {
       lCount++;
     }
   });
-  if (currentBucket.length > 0) buckets.push(_.clone(currentBucket));
+  if (currentBucket.length > 0) {
+    buckets.push(currentBucket.slice());
+  }
   return buckets;
 };
 

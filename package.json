@@ -16,7 +16,6 @@
   },
   "homepage": "https://github.com/jadaradix/ueber",
   "dependencies": {
-    "lodash": "^3.10.1",
     "underscore.string": "^3.2.2"
   }
 }
